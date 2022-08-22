@@ -1,0 +1,41 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+	<h2 style="font-size:18px;padding-bottom: 10px;
+						padding-top: 10px;font-family:'HelveticaNeue','Helvetica Neue',Helvetica,Arial,sans-serif;font-weight: 900;color:#fbc02d;text-align:center">
+		{{ title }}
+	</h2>
+	<div style="padding-bottom:20px;border-bottom:1px solid #A6A6A6;">
+		<p style="text-align:center;font-size:14px; line-height:24px;font-family:'HelveticaNeue','Helvetica Neue',Helvetica,Arial,sans-serif;color:#434344;font-weight:500;">
+			{{ description }}
+		</p>
+	</div>
+	
+	<div style="width:100%">
+		<table style="width:100%">
+			<thead>
+				<tr>
+					<th>Stage Name</th>
+					<th>Place</th>
+					<th>Duration</th>
+					<th>Difference</th>
+				</tr>
+			</thead>
+			<tbody style="margin-top:10px">
+				{% for stage in results.stages %}
+					<tr style="text-align:center;font-size:14px;">
+						<td>{{ stage.stageName }}</td>
+						<td>{{ stage.place }}</td>
+						<td>{{ stage.duration }}</td>
+						<td>{{ stage.difference }}</td>
+					</tr>
+				{% endfor %}
+				<tr style="text-align:center;font-weight:700;font-size:14px;">
+					<td>Totals</td>
+					<td>{{ results.totals.place }}</td>
+					<td>{{ results.totals.duration }}</td>
+					<td>{{ results.totals.difference }}</td>
+				</tr>
+			</tbody>
+	</table>
+</div>{% endblock %}

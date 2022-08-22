@@ -1,0 +1,40 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+
+<h2 style="font-size:18px;padding-bottom: 10px;
+padding-top: 10px;font-family:'HelveticaNeue','Helvetica Neue',Helvetica,Arial,sans-serif;font-weight: 900;color:#9c4221;text-align:center">
+  {{ title }}
+</h2>
+<a target="_blank" style="text-decoration:none;color:inherit;font-family:'HelveticaNeue','Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:normal;">
+							<img src={{url ~ avatar}} alt="User avatar" style="max-width:150px"/>
+						</a>
+<div style="padding-bottom:20px;border-bottom:1px solid #A6A6A6;">
+  <p style="text-align:center;font-size:14px; line-height:24px;font-family:'HelveticaNeue','Helvetica Neue',Helvetica,Arial,sans-serif;color:#0b0b0a;font-weight:500;">
+    {{ description }}
+  </p>
+</div>
+
+
+<br>
+<br>
+
+<div style="text-align:center;margin-bottom:30px;margin-top: 10px;">
+    
+    <!--[(if mso) | (IE)]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href={{publicUrl}} style="height:40px;v-text-anchor:middle;width:200px;" arcsize="10%" strokecolor="#61b76d" fillcolor="#61b76d">
+        <w:anchorlock/>
+        <center style="color:#ffffff;font-family:sans-serif;font-size:18px;font-weight:bold;">Login</center>
+      </v:roundrect>
+    <![endif]-->
+    
+    <a style="font-size:20px;background:#9c4221;color:#fff;padding-top:10px;padding-bottom:10px;padding-left:50px;padding-right:50px;text-decoration:none;display:inline-block; border-radius:15px;border:2px solid #fff;border-left:none;border-bottom:none; -webkit-text-size-adjust:none;mso-hide:all;" 
+        href={{ publicUrl }}>
+        Confirm
+    </a>
+</div>
+<br>
+
+<a href={{ publicUrl }} style="margin-right:20px;margin-top:40px;font-size: 14px;">If button not work, please click this link</a>
+	
+{% endblock %}
