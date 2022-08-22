@@ -3,7 +3,7 @@ import path from 'path';
 import nodemailer from 'nodemailer';
 import { twig, renderFile } from 'twig';
 
-import { isEmpty } from 'server/utils';
+import { isEmpty } from 'src/utils';
 import BaseContext from 'server/BaseContext';
 
 const {

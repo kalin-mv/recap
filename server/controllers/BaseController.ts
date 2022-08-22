@@ -52,9 +52,9 @@ export default class BaseController extends BaseContext {
           const methodArgs = Array.isArray(methodMiddleware)
             ? methodMiddleware
             : [];
-          for (let j = 0; j < methodArgs.length; j++) {
-            router.use(routeName, methodArgs[j]);
-          }
+          // for (let j = 0; j < methodArgs.length; j++) {
+          //   router.use(routeName, methodArgs[j]);
+          // }
 
           // the last middleware is action of controller
           const action = async (req, res, next) => {
@@ -75,7 +75,8 @@ export default class BaseController extends BaseContext {
               return res.status(400).json({ message: error.message });
             }
           };
-          router[methodName](routeName, action);
+          const args = [...methodArgs, action];
+          router[methodName](routeName, ...args);
           if (methodName === 'use') {
             classArgs.length = 0;
           }

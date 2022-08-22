@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useCompany } from 'server/hooks/company';
+import { useCompany } from 'src/hooks/company';
 import di from 'server/container';
 
 const Home: NextPage = (props) => {

@@ -22,13 +22,15 @@ passport.deserializeUser((req, id, done) => {
 
 passport.use(
   new LocalStrategy(
-    { usernameField: 'email', passReqToCallback: true },
+    {
+      usernameField: 'email',
+      passReqToCallback: true,
+    },
     async (req, email, password, done) => {
       const toJS = di('toJS');
       const user = await di('UserService')
         .findUserWithEmailAndPassword(email, password)
         .then((o) => toJS(UserSchema, o));
-      console.log('passport localStrategy, userId=', user?.id);
       if (user) done(null, user);
       else done(null, false, { message: 'Email or password is incorrect' });
     }
@@ -39,5 +41,7 @@ export const actions = [
   promisify(passport.initialize()),
   promisify(passport.session()),
 ];
+
+export const passportAuth = promisify(passport.authenticate('local'));
 
 export default passport;

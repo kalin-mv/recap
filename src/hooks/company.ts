@@ -1,4 +1,4 @@
-import fetcher from 'server/fetcher';
+import fetcher from 'src/fetcher';
 import useSWR from 'swr';
 
 export function useCompany() {

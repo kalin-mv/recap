@@ -1,5 +1,5 @@
 import session from 'server/middleware/session';
-import passport, { actions } from 'server/middleware/passport';
+import { passportAuth, actions } from 'server/middleware/passport';
 import { POST, middleware, run } from 'server/decorators';
 import BaseController from './BaseController';
 import validate from 'server/middleware/validate';
@@ -22,9 +22,9 @@ export default class AuthController extends BaseController {
       additionalProperties: false,
     })
   )
-  @run(passport.authenticate('local'))
-  public async login({ body, params, identity, session }) {
-    await console.log('call /api/login', body, identity, session);
+  @run(passportAuth)
+  public async login({ identity }) {
+    console.log('/api/login')
     return { identity };
   }
 

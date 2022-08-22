@@ -6,8 +6,7 @@ import BaseModel from './BaseModel';
 import User from './User';
 import { Is, ConfirmRequestMethod } from 'server/constants';
 
-@pre<ConfirmRequest>('save', function (next) {
-  this.wasNew = this.isNew;
+@pre<ConfirmRequest>('validate', function (next) {
   if (this.isNew) {
     this.createdAt = new Date().getTime();
     this.reset = Is.NO;
@@ -25,10 +24,11 @@ export default class ConfirmRequest extends BaseModel {
   @prop({ unique: true, required: true })
   public code: string;
 
-  @prop()
-  public type: ConfirmRequestMethod;
+  //@prop({ type: () => ConfirmRequestMethod })
+  @prop({ type: String, enum: ConfirmRequestMethod })
+  public rType: ConfirmRequestMethod;
 
-  @prop()
+  @prop({ type: Number, enum: Is, default: Is.NO })
   public reset: Is;
 
   @prop()
@@ -44,7 +44,7 @@ export default class ConfirmRequest extends BaseModel {
   public updatedAt: number;
 
   @prop()
-  public data: any;
+  public data: Object;
 
   public eventSlug: string;
 

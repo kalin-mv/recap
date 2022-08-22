@@ -8,7 +8,7 @@ export default class ConfirmService extends BaseContext {
     if (user) {
       let request = new ConfirmRequest();
       request.user = userId;
-      request.type = ConfirmRequestMethod.REGISTRATION;
+      request.rType = ConfirmRequestMethod.REGISTRATION;
       request.data = data;
       request = await request.save();
       const res = await MailService.tmpl('accountVerification').send(
@@ -34,7 +34,7 @@ export default class ConfirmService extends BaseContext {
     if (user) {
       let request = new ConfirmRequest();
       request.user = userId;
-      request.type = ConfirmRequestMethod.PASSWORD;
+      request.rType = ConfirmRequestMethod.PASSWORD;
       request = await request.save();
       const res = await MailService.tmpl('resetPassword').send(
         user.userEmail,
