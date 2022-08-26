@@ -41,14 +41,13 @@ export default class CompanyController extends BaseController {
 
   @POST('/api/company')
   // @run(m2)
-  public getCompany2({ body, params, identity, session }) {
-    console.log('call /api/company', body, identity, session);
-    const { CompanyService, toJS } = this.di;
-    return CompanyService.findCompanies()
-      .lean()
-      .then((o) => toJS(Company, o));
+  public async getCompany2() {
+    const { CompanyService } = this.di;
+    const data = await CompanyService.findCompanies().lean();
+    return this.json(data, Company);
   }
 
   @POST()
   public getSuperMethod() {}
 }
+/*  */

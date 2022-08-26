@@ -11,7 +11,6 @@ import BaseModel from './BaseModel';
 import User from './User';
 
 class EmailParams {
-  public _id: Schema.Types.ObjectId;
 
   @prop()
   public variable: string;
@@ -41,7 +40,7 @@ export default class EmailTemplate extends BaseModel {
   public userId: Ref<User>;
 
   @prop({ type: () => EmailParams })
-  public params: EmailParams;
+  public params: EmailParams[];
 
   @prop()
   public createdAt: number;

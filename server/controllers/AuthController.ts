@@ -24,8 +24,8 @@ export default class AuthController extends BaseController {
   )
   @run(passportAuth)
   public async login({ identity }) {
-    console.log('/api/login')
-    return { identity };
+    console.log('/api/login');
+    return this.json({ identity });
   }
 
   @POST('/api/signUp')
@@ -45,6 +45,40 @@ export default class AuthController extends BaseController {
   )
   public signUp({ body }) {
     const { UserService } = this.di;
-    return UserService.registerUser(body);
+    return UserService.registerUser(body).then((data) =>
+      this.json(data).message('User was registered successfully')
+    );
+  }
+
+  @POST('/api/verify')
+  @run(
+    validate({
+      type: 'object',
+      properties: {
+        code: props.confirm.code,
+      },
+      required: ['code'],
+      additionalProperties: false,
+      errorMessage: {
+        properties: {
+          code: 'Unauthorized data format, please try again',
+        },
+      },
+    })
+  )
+  public verification({ body }) {
+    console.log('verify', body);
+    const code = body.code;
+    const { ConfirmService } = this.di;
+    return ConfirmService.verification(code);
+    //   .then((user: any) => {
+    //     if (user) {
+    //       return res.answer(user, 'Account was successfully verified');
+    //     }
+    //     return res.answer(null, "Can't verify account", status.NOT_FOUND);
+    //   })
+    //   .catch((err: any) => {
+    //     return res.answer(null, "Can't verify account", status.NOT_FOUND);
+    //   });
   }
 }

@@ -14,6 +14,10 @@ const {
   BASE_URL,
   SITE_NAME,
   MAIL_TRANSPORT,
+  MAIL_SMTP_PORT,
+  MAIL_SMTP_HOST,
+  MAIL_SMTP_USER,
+  MAIL_SMTP_PSWD,
 } = process.env;
 
 export const TRANSPORT_MAIL = 'mail';
@@ -67,7 +71,6 @@ export default class Mail extends BaseContext {
           }
           let emailTitle = templateFromDb && templateFromDb.title;
           let content = templateFromDb && templateFromDb.description;
-          // console.log('templateFromDb.params',templateFromDb.params);
 
           // if template have params > var description have nested variables
           if (
@@ -80,21 +83,20 @@ export default class Mail extends BaseContext {
               data: templateFromDb.title,
             });
             emailTitle = eTitle.render(params);
-
+            
             // description
             const description = twig({
               data: templateFromDb.description,
             });
             content = description.render(params);
           }
-
           // TODO 123 remove old params.title = templateFromDb && templateFromDb.title;
           params.title = emailTitle;
           params.description = content;
           params.url = BASE_URL;
           // params.companyName = companyInfo && companyInfo.companyName && companyInfo.companyName;
           params.companyName = SITE_NAME;
-
+          console.log('email params', params)
           renderFile(
             path.resolve(`server/emails/${templateName}.twig`),
             params,
@@ -105,26 +107,26 @@ export default class Mail extends BaseContext {
                 mailOptions.html = html;
                 let transporter = null;
                 switch (MAIL_TRANSPORT) {
-                  // case TRANSPORT_SMTP:
-                  //   transporter = nodemailer.createTransport({
-                  //     host: config.mail.smtp.server,
-                  //     port: config.mail.smtp.port,
-                  //     secure: config.mail.smtp.security, // true for 465, false for other ports
-                  //     auth: {
-                  //       user: config.mail.smtp.username,
-                  //       pass: config.mail.smtp.password,
-                  //     },
-                  //   });
-                  //   break;
-                  // case TRANSPORT_GMAIL:
-                  //   transporter = nodemailer.createTransport({
-                  //     service: 'gmail',
-                  //     auth: {
-                  //       user: config.mail.gmail.username,
-                  //       pass: config.mail.gmail.password,
-                  //     },
-                  //   });
-                  //   break;
+                  case TRANSPORT_SMTP:
+                    transporter = nodemailer.createTransport({
+                      host: MAIL_SMTP_HOST,
+                      port: MAIL_SMTP_PORT,
+                      secure: true, // true for 465, false for other ports
+                      auth: {
+                        user: MAIL_SMTP_USER,
+                        pass: MAIL_SMTP_PSWD,
+                      },
+                    });
+                    break;
+                  case TRANSPORT_GMAIL:
+                    transporter = nodemailer.createTransport({
+                      service: 'gmail',
+                      auth: {
+                        user: MAIL_SMTP_USER,
+                        pass: MAIL_SMTP_PSWD,
+                      },
+                    });
+                    break;
                   case TRANSPORT_MAIL:
                     transporter = nodemailer.createTransport({
                       sendmail: true,

@@ -52,4 +52,27 @@ export default class ConfirmService extends BaseContext {
     }
     return true;
   }
+
+  public async verification(code: string) {
+    const { ConfirmRequest, UserModel } = this.di;
+    const confirm: any = await ConfirmRequest.findOne({
+      type: ConfirmRequestMethod.REGISTRATION,
+      code,
+    });
+    if (!confirm || !confirm.user) {
+      return Promise.reject("Can't verify account or account already verified");
+    }
+    console.log('confirm', confirm);
+    const id = confirm.user;
+    const user: any = await UserModel.findById(id);
+    if (user) {
+      user.suspended = false;
+      await user.save();
+    } else {
+      console.log('The handled confirmation code is', code);
+      throw new Error('The confirmation code have been already handled');
+    }
+    await confirm.remove();
+    return user;
+  }
 }

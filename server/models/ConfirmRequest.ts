@@ -48,5 +48,4 @@ export default class ConfirmRequest extends BaseModel {
 
   public eventSlug: string;
 
-  public wasNew = false;
 }

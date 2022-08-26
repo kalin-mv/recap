@@ -31,6 +31,7 @@ export default class UserSchema extends BaseModel {
   @prop()
   lastName?: string;
 
+  @Exclude()
   @prop()
   token?: string;
 
