@@ -60,10 +60,10 @@ export default class ConfirmService extends BaseContext {
       code,
     });
     if (!confirm || !confirm.user) {
-      return Promise.reject("Can't verify account or account already verified");
+      throw new Error("Can't verify account or account already verified");
     }
-    console.log('confirm', confirm);
     const id = confirm.user;
+    await confirm.remove();
     const user: any = await UserModel.findById(id);
     if (user) {
       user.suspended = false;
@@ -72,7 +72,6 @@ export default class ConfirmService extends BaseContext {
       console.log('The handled confirmation code is', code);
       throw new Error('The confirmation code have been already handled');
     }
-    await confirm.remove();
-    return user;
+    return true;
   }
 }

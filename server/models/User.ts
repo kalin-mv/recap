@@ -5,6 +5,7 @@ import isEmail from 'validator/lib/isEmail';
 
 import BaseModel from './BaseModel';
 import Company from './Company';
+import Country from './Country';
 
 export default class UserSchema extends BaseModel {
   @prop({
@@ -52,8 +53,15 @@ export default class UserSchema extends BaseModel {
   @prop({ ref: () => Company })
   public companies?: Ref<Company>[];
 
-  // @prop({ ref: CountrySchema })
-  // public country: CountrySchema;
+  @prop()
+  public banned?: boolean;
+
+  @prop()
+  public suspended?: boolean;
+
+  @Type(() => Country)
+  @prop({ ref: () => Country })
+  public country?: Country;
 
   @prop({ required: true, default: Date.now() })
   lastAction?: number;

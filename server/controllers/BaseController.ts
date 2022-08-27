@@ -58,6 +58,7 @@ export default class BaseController extends BaseContext {
       this.constructor
     );
     const classArgs = Array.isArray(classMiddleware) ? classMiddleware : [];
+    console.log('classArgs', classArgs)
     for (let i = 0; i < classArgs.length; i++) {
       router.use(classArgs[i]);
     }
@@ -73,7 +74,7 @@ export default class BaseController extends BaseContext {
           const methodArgs = Array.isArray(methodMiddleware)
             ? methodMiddleware
             : [];
-
+          console.log('methodArgs', methodArgs)
           // the last middleware is action of controller
           const action = async (req, res, next) => {
             try {
@@ -97,7 +98,7 @@ export default class BaseController extends BaseContext {
               }
             } catch (e: any) {
               console.error('🔴 Handler', e);
-              const message = e?.message ? e.message : e.error.messge;
+              const message = e?.message ? e.message : e;
               return res.status(400).json({ message });
             }
           };

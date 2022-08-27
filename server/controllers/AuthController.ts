@@ -1,12 +1,11 @@
 import session from 'server/middleware/session';
 import { passportAuth, actions } from 'server/middleware/passport';
-import { POST, middleware, run } from 'server/decorators';
+import { POST, run } from 'server/decorators';
 import BaseController from './BaseController';
 import validate from 'server/middleware/validate';
 import props from 'server/props';
 
-@middleware(session)
-@middleware(actions)
+@run([session, ...actions])
 export default class AuthController extends BaseController {
   protected getServerSideProps() {}
 
@@ -67,18 +66,10 @@ export default class AuthController extends BaseController {
     })
   )
   public verification({ body }) {
-    console.log('verify', body);
     const code = body.code;
     const { ConfirmService } = this.di;
-    return ConfirmService.verification(code);
-    //   .then((user: any) => {
-    //     if (user) {
-    //       return res.answer(user, 'Account was successfully verified');
-    //     }
-    //     return res.answer(null, "Can't verify account", status.NOT_FOUND);
-    //   })
-    //   .catch((err: any) => {
-    //     return res.answer(null, "Can't verify account", status.NOT_FOUND);
-    //   });
+    return ConfirmService.verification(code).then((r) =>
+      this.json(r).message('Your account was verified successfully')
+    );
   }
 }
