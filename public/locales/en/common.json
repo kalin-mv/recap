@@ -1,0 +1,9 @@
+{
+    "welcome": "Welcome",
+    "email": "Email", 
+    "password": "Password",
+    "forgot-password": "Forgot password?",
+    "sign-in": "Sign in",
+    "first-name": "First Name" ,
+    "last-name": "Last Name"
+}

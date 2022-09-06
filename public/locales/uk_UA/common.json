@@ -1,0 +1,9 @@
+{
+    "welcome": "Вітаємо",
+    "email": "Пошта", 
+    "password": "Пароль",
+    "forgot-password": "Забули пароль?",
+    "sign-in": "Увійти",
+    "first-name": "Ім'я" ,
+    "last-name": "Прізвище"
+}
