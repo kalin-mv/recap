@@ -17,8 +17,6 @@ function Login() {
         });
     };
     return <LoginForm onSubmit={onLoginClick} />;
-
-
 }
 
 export const getStaticProps = async (context: any) => {
