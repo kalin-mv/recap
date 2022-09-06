@@ -3,6 +3,7 @@ const props = {
     firstName: { type: 'string', minLength: 2, maxLength: 40 },
     lastName: { type: 'string', minLength: 2, maxLength: 40 },
     password: { type: 'string', format: 'password', minLength: 8 },
+    confirm: { type: 'string', format: 'password', minLength: 8 },
     email: { type: 'string', format: 'email', minLength: 5 },
     timezone: { type: 'string', minLength: 3, maxLength: 160 },
   },
