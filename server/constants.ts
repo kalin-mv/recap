@@ -12,3 +12,14 @@ export interface IRequestResult {
   data: any;
   message?: any;
 }
+
+export enum ROLE {
+  GUEST = 'guest',
+  USER = 'user',
+  ADMIN = 'admin',
+  ACCOUNTANT = 'accountant',
+  CONTENT_MANAGER = 'content-manager',
+  LEAD = 'lead',
+}
+
+export enum Sort { ASC = 1, DESC = -1, none = 0 }
