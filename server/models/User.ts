@@ -7,6 +7,7 @@ import BaseModel from './BaseModel';
 import Company from './Company';
 import Country from './Country';
 
+// TODO add pre save (password hash and updateAt/createAt field logic )
 export default class UserSchema extends BaseModel {
   @prop({
     unique: true,

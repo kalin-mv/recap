@@ -25,6 +25,7 @@ export default class AuthController extends BaseController {
     public getIdentity(req) {
         console.log('call GET identity !!!');
         console.log('req-------------------------', req);
+        // TODO return identity
         // const identity = req.session.identity;
         return {}; //identity;
     }
