@@ -54,7 +54,8 @@ const LoginForm = (props: ILoginFormProps) => {
                                 <div className="my-3">
                                     <button type="submit"
                                         className="btn btn-primary btn-lg"
-                                        disabled={isSubmitting}>
+                                        // disabled={isSubmitting}
+                                    >
                                         {t('sign-in')}
                                     </button>
                                 </div>

@@ -84,7 +84,8 @@ const SignupForm = (props: ISignupFormProps) => {
                                     <button
                                         className="btn btn-primary btn-lg"
                                         type="submit"
-                                        disabled={isSubmitting}>
+                                        // disabled={isSubmitting}
+                                    >
                                         { t('auth:sign-up')}
                                     </button>
                                 </div>
