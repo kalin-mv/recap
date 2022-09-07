@@ -4,6 +4,8 @@ import isEmail from 'validator/lib/isEmail';
 import normalizeEmail from 'validator/lib/normalizeEmail';
 
 import BaseContext from 'server/BaseContext';
+import { ROLE, Sort } from 'server/constants';
+import slug from 'slug';
 
 export default class UserService extends BaseContext {
   public async findUserWithEmailAndPassword(email, password) {
@@ -43,16 +45,37 @@ export default class UserService extends BaseContext {
     if (user) {
       throw new Error('The email has already been taken.');
     }
-
+        const slugName = slug(firstName + ' ' + lastName,'.');
+        const name = new RegExp(firstName, 'i');
+        const surname = new RegExp(lastName, 'i');
+        let dbSlug; 
+        const { UserModel } = this.di;
+        const userForSlug = await UserModel.findOne({ firstName: name, lastName: surname }).sort({'createdAt': Sort.DESC});
+        if(userForSlug)
+        {
+            const  userSlug = userForSlug.slug;
+            const slugId = userSlug.split('.').pop();
+            const parsed = parseInt(slugId, 10) + 1;
+            if (!isNaN(parsed)) {
+                dbSlug = slugName + '.' + parsed; 
+            } else {
+                dbSlug = slugName + '.' + 1;
+            }
+        } else {
+            dbSlug = slugName;
+        }
     const defaultTimezone = 'America/Edmonton';
     const userData = {
+      suspended: true,
+      banned: false,
       userEmail: email,
       password: password && password.trim(),
       firstName,
       lastName,
       timezone: timezone ? timezone.trim() : defaultTimezone,
+      role: ROLE.USER,
+      slug: dbSlug,
     };
-    const { UserModel } = this.di;
     const newUser = new UserModel(userData);
     user = await newUser.save();
     await ConfirmService.registration(user._id, userData);
