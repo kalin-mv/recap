@@ -1,6 +1,6 @@
 import session from 'server/middleware/session';
 import { passportAuth, actions } from 'server/middleware/passport';
-import { POST, run } from 'server/decorators';
+import { GET, POST, run } from 'server/decorators';
 import BaseController from './BaseController';
 import validate from 'server/middleware/validate';
 import props from 'server/props';
@@ -20,6 +20,14 @@ const checkPasswords = async (req, res, next) => {
 @run([session, ...actions])
 export default class AuthController extends BaseController {
   protected getServerSideProps() {}
+
+  @GET('/api/identity')
+    public getIdentity(req) {
+        console.log('call GET identity !!!');
+        console.log('req-------------------------', req);
+        // const identity = req.session.identity;
+        return {}; //identity;
+    }
 
   @POST('/api/login')
   @run(

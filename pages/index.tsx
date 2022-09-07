@@ -3,9 +3,11 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useCompany } from 'src/hooks/company';
 import di from 'server/container';
+import { useIdentity } from 'src/hooks/identity';
 
 const Home: NextPage = (props) => {
   const { data, error } = useCompany();
+  const identity = useIdentity();
   const loading = !data && !error;
   console.log('data', data)
   return (
