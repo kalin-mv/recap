@@ -74,7 +74,6 @@ export default class BaseController extends BaseContext {
           const methodArgs = Array.isArray(methodMiddleware)
             ? methodMiddleware
             : [];
-          console.log('methodArgs', methodArgs)
           // the last middleware is action of controller
           const action = async (req, res, next) => {
             try {

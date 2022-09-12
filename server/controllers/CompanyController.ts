@@ -21,26 +21,27 @@ export default class CompanyController extends BaseController {
     return CompanyService.findCompanies();
   }
 
-  // @USE('/api/company')
-  // public getCompanyById() {
-  //   console.log('call USE - 1 action !!!');
-  // }
+  @USE('/api/company')
+  public getCompanyById() {
+    console.log('call USE - 1 action !!!');
+  }
 
-  // @USE('/api/company')
-  // public getCompanyById2() {
-  //   console.log('call USE - 2 action !!!');
-  // }
+  @USE('/api/company')
+  public getCompanyById2() {
+    console.log('call USE - 2 action !!!');
+  }
 
-  // @GET('/api/company')
-  // public getCompany() {
-  //   console.log('call GET action !!!');
-  //   const { CompanyService } = this.di;
-  //   return CompanyService.findCompanies();
-  // }
+  @GET('/api/company')
+  public async getCompany() {
+    console.log('call GET action !!!');
+    const { CompanyService } = this.di;
+    const data = await CompanyService.findCompanies();
+    return this.json(data, Company);
+  }
 
   @POST('/api/company')
   @run(m2)
-  public async getCompany2() {
+  public async getCompany2({body, session, id}) {
     const { CompanyService } = this.di;
     const data = await CompanyService.findCompanies().lean();
     return this.json(data, Company);

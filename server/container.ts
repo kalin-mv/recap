@@ -47,7 +47,6 @@ const getDI = (name: string | null) => {
       toJS: awilix.asFunction(toJSON).singleton(),
     });
 
-    // console.log('registrations', Object.keys(container.registrations));
     global.di = container;
   }
   return name ? global.di.resolve(name) : global.di;

@@ -3,6 +3,5 @@ import USE from './use';
 import POST from './post';
 
 import run from './run';
-import middleware from './middleware';
 
-export { GET, POST, middleware, run, USE };
+export { GET, POST, run, USE };
