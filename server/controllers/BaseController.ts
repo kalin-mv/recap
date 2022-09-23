@@ -13,7 +13,7 @@ export default class BaseController extends BaseContext {
   private _status: number | null;
 
   protected json(data: any, className: any | null = null) {
-    this._data = className ? this.di.toJS(className, data) : data;
+    this._data = className ? this.di.toJS(data, className) : data;
     return this;
   }
 
@@ -49,32 +49,38 @@ export default class BaseController extends BaseContext {
       })
       .run(req, res);
 
-  public handler(routeName: string) {
-    const router = createRouter<NextApiRequest, NextApiResponse>();
-
-    // get middleware functions that was defined under class name
+  // get middleware functions that was defined under class name
+  private useClassMiddleware(router) {
     const classMiddleware = Reflect.getMetadata(
       this.constructor.name,
       this.constructor
     );
     const classArgs = Array.isArray(classMiddleware) ? classMiddleware : [];
-    console.log('classArgs', classArgs)
     for (let i = 0; i < classArgs.length; i++) {
       router.use(classArgs[i]);
     }
+    return classArgs;
+  }
+
+  // get middleware functions that was defined under action(method of class)
+  private useMethodMiddleware(methodName: string) {
+    const key = this.constructor.name + '_' + methodName;
+    const methodMiddleware = Reflect.getMetadata(key, this.constructor);
+    const methodArgs = Array.isArray(methodMiddleware) ? methodMiddleware : [];
+    return methodArgs;
+  }
+
+  public handler(routeName: string) {
+    const router = createRouter<NextApiRequest, NextApiResponse>();
+    const classArgs = this.useClassMiddleware(router);
     const members: any = Reflect.getMetadata(routeName, this);
     Object.keys(members).map((method) => {
       for (let i = 0; i < members[method].length; i++) {
-        const callback = this[members[method][i]].bind(this);
         const methodName: string = method.toLowerCase();
         if (typeof router[methodName] === 'function') {
-          // get middleware functions that was defined under action(method of class)
-          const key = this.constructor.name + '_' + members[method][i];
-          const methodMiddleware = Reflect.getMetadata(key, this.constructor);
-          const methodArgs = Array.isArray(methodMiddleware)
-            ? methodMiddleware
-            : [];
+          const methodArgs = this.useMethodMiddleware(members[method][i]);
           // the last middleware is action of controller
+          const callback = this[members[method][i]].bind(this);
           const action = async (req, res, next) => {
             try {
               await callback({

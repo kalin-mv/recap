@@ -16,9 +16,10 @@ const m2 = async (req, res, next) => {
 
 @run([session, ...actions, m])
 export default class CompanyController extends BaseController {
-  protected getServerSideProps() {
-    const { CompanyService } = this.di;
-    return CompanyService.findCompanies();
+  protected async getServerSideProps() {
+    const { CompanyService, toJS } = this.di;
+    const data = await CompanyService.findCompanies().lean();
+    return toJS(data, Company);
   }
 
   @USE('/api/company')
@@ -41,7 +42,7 @@ export default class CompanyController extends BaseController {
 
   @POST('/api/company')
   @run(m2)
-  public async getCompany2({body, session, id}) {
+  public async getCompany2({ body, session, id }) {
     const { CompanyService } = this.di;
     const data = await CompanyService.findCompanies().lean();
     return this.json(data, Company);
@@ -50,4 +51,3 @@ export default class CompanyController extends BaseController {
   @POST()
   public getSuperMethod() {}
 }
-/*  */

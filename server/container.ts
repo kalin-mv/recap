@@ -11,8 +11,10 @@ declare global {
 }
 
 export const toJSON = () => {
-  return (someClass: any, instance: any): any => {
-    const deserialized = plainToInstance(someClass, instance);
+  return (instance: any, someClass: any): any => {
+    const deserialized = plainToInstance(someClass, instance, {
+      enableCircularCheck: true,
+    });
     return instanceToPlain(deserialized);
   };
 };

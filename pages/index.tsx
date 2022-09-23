@@ -31,7 +31,7 @@ const Home: NextPage = (props) => {
   );
 };
 
-export function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res }) {
   return di('CompanyController').run(req, res);
 }
 

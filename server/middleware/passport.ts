@@ -15,7 +15,7 @@ passport.deserializeUser((req, id, done) => {
   di('UserService')
     .findUserForAuth(id)
     .then(
-      (user) => done(null, toJS(UserSchema, user)),
+      (user) => done(null, toJS(user, UserSchema)),
       (err) => done(err)
     );
 });
@@ -26,13 +26,18 @@ passport.use(
       usernameField: 'email',
       passReqToCallback: true,
     },
-    async (req, email, password, done) => {
+    (req, email, password, done) => {
       const toJS = di('toJS');
-      const user = await di('UserService')
+      di('UserService')
         .findUserWithEmailAndPassword(email, password)
-        .then((o) => toJS(UserSchema, o));
-      if (user) done(null, user);
-      else done(null, false, { message: 'Email or password is incorrect' });
+        .then((user) => {
+          if (user) {
+            const u = toJS(user, UserSchema);
+            done(null, u);
+          } else {
+            done(null, false, { message: 'Email or password is incorrect' });
+          }
+        });
     }
   )
 );
